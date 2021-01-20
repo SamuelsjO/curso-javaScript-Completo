@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabuada</title>
+</head>
+<body>
+    <h1>function - Tabuada</h1>
+
+    <button onclick="mostrarTabuada()">Mostrar tabuada</button> 
+    <button onclick="limparTabuada()">Limpar tabuada</button>
+    <div id="output"></div>
+
+    <script>
+
+       const output = document.getElementById("output")
+
+       function mostrarTabuada(){
+
+            let n = parseFloat( prompt("Digite um numero"))
+            let msg = ""
+            for(let j = 0; j <= 1000 ;j++){
+                msg += `${j} x ${n} = ${(j * n)} <br>`
+            } 
+
+            output.innerHTML = msg;
+       }
+
+       
+       function limparTabuada(){
+
+        output.innerHTML = " ";
+       }
+
+    </script>
+</body>
+</html>
