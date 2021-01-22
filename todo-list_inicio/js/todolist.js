@@ -7,24 +7,32 @@
     const ul = document.getElementById("todo-list")
     const lis = ul.getElementsByTagName("li")
 
-    let arrTasks = [
-        {
-            name: "task 1",
-            createdAt: Date.now(),
-            completed: false
-        },
-        {
-            name: "task 2",
-            createdAt: Date.now(),
-            completed: false
-        }
-    ]
+    let arrTasks = getSavedData()
 
-    // function addEventeLi(li) {
-    //     li.addEventListener("click", function () {
-    //         console.log(this)
-    //     })
-    // }
+    function getSavedData() {
+
+        let taskData = localStorage.getItem("tasks")
+        taskData = JSON.parse(taskData)
+
+        return taskData && taskData.length ? taskData : [
+            {
+                name: "task 1",
+                createdAt: Date.now(),
+                completed: false
+            },
+            {
+                name: "task 2",
+                createdAt: Date.now(),
+                completed: false
+            }
+        ]
+    }
+
+    function setNewData() {
+        localStorage.setItem("tasks", JSON.stringify(arrTasks))
+    }
+
+    setNewData()
 
     function generatedLiTask(obj) {
         const li = document.createElement("li")
@@ -36,8 +44,8 @@
         li.className = "todo-item"
 
         checkButton.className = "button-check"
-        checkButton.innerHTML = 
-        `<i class="fas fa-check ${obj.completed ? "" : "displayNone"}" data-action="checkButton"></i>`
+        checkButton.innerHTML =
+            `<i class="fas fa-check ${obj.completed ? "" : "displayNone"}" data-action="checkButton"></i>`
         checkButton.setAttribute("data-action", "checkButton")
 
         li.appendChild(checkButton)
@@ -96,6 +104,7 @@
             createdAt: Date.now(),
             completed: false
         })
+        setNewData()
 
     }
 
@@ -127,13 +136,13 @@
                 arrTasks.splice(currentLiIndex, 1)
                 console.log(arrTasks)
                 renderTask()
-                //currentLi.remove()
-                //currentLi.parentElement.removeChild(currentLi)
+                setNewData()
             },
             containerEditButton: function () {
                 const val = currentLi.querySelector(".editInput").value
                 arrTasks[currentLiIndex].name = val
                 renderTask()
+                setNewData()
             },
             containerCancelButton: function () {
                 currentLi.querySelector(".editContainer").removeAttribute("style")
@@ -143,13 +152,15 @@
             checkButton: function () {
                 arrTasks[currentLiIndex].completed = !arrTasks[currentLiIndex].completed
 
-                if(arrTasks[currentLiIndex].completed){
+                // if (arrTasks[currentLiIndex].completed) {
 
-                    currentLi.querySelector(".fa-check").classList.remove("displayNone")
+                //     currentLi.querySelector(".fa-check").classList.remove("displayNone")
 
-                } else {
-                    currentLi.querySelector(".fa-check").classList.add("displayNone")
-                }
+                // } else {
+                //     currentLi.querySelector(".fa-check").classList.add("displayNone")
+                // }
+                setNewData()
+                renderTask()
             }
 
         }
